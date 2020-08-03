@@ -3,37 +3,18 @@ import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
 import Button from '../../../components/Button';
+import useForm from '../../../hooks/useForm';
 
-function CadastroVideo() {
+function CadastroCategoria() {
   const valoresIniciais = {
     nome: '',
     descricao: '',
     cor: '',
   };
 
+  const { handleChange, values, clearForm } = useForm(valoresIniciais);
+
   const [categorias, setCategorias] = useState([]);
-  const [values, setValues] = useState(valoresIniciais);
-
-  function setValue(chave, valor) {
-    setValues({
-      ...values,
-      [chave]: valor,
-    });
-  }
-
-  function handleChange(infosDoEvento) {
-    setValue(
-      infosDoEvento.target.getAttribute('name'),
-      infosDoEvento.target.value,
-    );
-  }
-  // function handleChange(infosDoEvento) {
-  //   const { getAttribute, value } = infosDoEvento.target;
-  //   setValue(
-  //     getAttribute('name'),
-  //     value
-  //   );
-  // }
 
   useEffect(() => {
     const url = 'http://localhost:8080/categorias';
@@ -43,23 +24,6 @@ function CadastroVideo() {
         ...resposta,
       ]);
     });
-    // setTimeout(() => {
-    //   setCategorias([
-    //     ...categorias,
-    //     {
-    //       id: 1,
-    //       nome: 'Front End',
-    //       descricao: 'Infos da categoria',
-    //       cor: '#cbd1ff',
-    //     },
-    //     {
-    //       id: 1,
-    //       nome: 'Back End',
-    //       descricao: 'Infos da categoria',
-    //       cor: '#cbd1ff',
-    //     },
-    //   ]);
-    // }, 4 * 1000);
   }, []);
 
   return (
@@ -69,11 +33,10 @@ function CadastroVideo() {
         {values.nome}
       </h1>
       <form
-        // style={{ background: values }}
         onSubmit={function handleSubmit(infosDoEvento) {
           infosDoEvento.preventDefault();
           setCategorias([...categorias, values]);
-          setValues(valoresIniciais);
+          clearForm();
         }}
       >
         <FormField
@@ -109,6 +72,7 @@ function CadastroVideo() {
 
       <ul>
         {categorias.map((categoria, indice) => (
+          // eslint-disable-next-line react/no-array-index-key
           <li key={`${categoria}${indice}`}>{categoria.nome}</li>
         ))}
       </ul>
@@ -117,4 +81,4 @@ function CadastroVideo() {
   );
 }
 
-export default CadastroVideo;
+export default CadastroCategoria;
