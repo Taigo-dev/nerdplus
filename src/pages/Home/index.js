@@ -3,7 +3,9 @@ import React, { useEffect, useState } from 'react';
 import BannerMain from '../../components/BannerMain';
 import Carousel from '../../components/Carousel';
 import PageDefault from '../../components/PageDefault';
+
 import categoriasRepository from '../../repositories/categorias';
+// import styled from 'styled-components';
 
 function Home() {
   const [dadosIniciais, setDadosIniciais] = useState([]);
@@ -11,9 +13,9 @@ function Home() {
   // eslint-disable-next-line
   useEffect(() => {
     // http://localhost:8080/categorias?_embed=videos
-    categoriasRepository.getAllWithVideos()
+    categoriasRepository
+      .getAllWithVideos()
       .then((categoriasComVideos) => {
-        console.log(categoriasComVideos[0].videos[0]);
         setDadosIniciais(categoriasComVideos);
       })
       .catch((err) => {
@@ -32,7 +34,7 @@ function Home() {
               <BannerMain
                 videoTitle={dadosIniciais[0].videos[0].titulo}
                 url={dadosIniciais[0].videos[0].url}
-                videoDescription={dadosIniciais[0].videos[0].description}
+                videoDescription={dadosIniciais[0].videos[0].descricao}
               />
               <Carousel
                 ignoreFirstVideo
